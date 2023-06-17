@@ -7,14 +7,14 @@ export function buildQueryStringArrayFromObject(obj = {}, arrayKey = '') {
     )).join('&');
 }
 
-export const getBuildItems = async (filter = {}): Promise<BuildItemsResponse> => {
+export const getBuildItems = async (token: string, filter = {}): Promise<BuildItemsResponse> => {
     const qs = buildQueryStringArrayFromObject(filter, 'filter')
 
     const response = await fetch(
         `https://percy.io/api/v1/build-items?${qs}`,
         {
             headers: {
-                Authorization: `Token ${process.env.PERCY_TOKEN}`,
+                Authorization: `Token ${token}`,
             },
         },
     )

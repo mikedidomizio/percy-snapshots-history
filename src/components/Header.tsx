@@ -3,15 +3,27 @@ import {useState} from "react";
 import {setOrganizationId} from "@/stores/organization.store";
 import Link from "next/link";
 
-export const Header = () => {
+type HeaderProps = {
+    projectSlug: string,
+    token: string
+}
+
+export const Header = ({ projectSlug: ps, token: tk}: HeaderProps) => {
+    const [token, setToken] = useState(tk)
+    const [projectSlug, setProjectSlug] = useState(ps)
+
     const handleFetchOrganization = async() => {
-        const response = await fetch('./api/get-organization')
+        const data = new URLSearchParams();
+        data.append('token', token);
+        data.append('projectSlug', projectSlug);
+
+        const response = await fetch('./api/organization', {
+            method: 'POST',
+            body: data
+        })
         const json = await response.json()
         setOrganizationId(json.organizationId)
     }
-
-    const [token, setToken] = useState('')
-    const [projectSlug, setProjectSlug] = useState('')
 
     return <form action={handleFetchOrganization}>
         <h1><Link href="/">Percy Snapshot Compare</Link></h1>
@@ -27,8 +39,7 @@ export const Header = () => {
                 Token
             </label>
             <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                   id="username" type="text" placeholder="Token" value={token} onChange={(e) => setToken(e.target.value)} />
-
+                   id="username" type="password" placeholder="Token" value={token} onChange={(e) => setToken(e.target.value)} />
 
             <button type="submit">Submit</button>
         </div>

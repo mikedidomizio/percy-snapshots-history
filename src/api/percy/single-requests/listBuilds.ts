@@ -1,6 +1,7 @@
 import {PercyGetBuildsResponse} from "@/types/percy/builds";
 
 export const listBuilds = async (
+    token: string,
     project: string,
     lastBuild?: string,
     limit?: number
@@ -18,7 +19,7 @@ export const listBuilds = async (
 
     const buildsResponse = await fetch(url, {
         headers: {
-            'Authorization': `Token ${process.env.PERCY_TOKEN}`
+            'Authorization': `Token ${token}`
         }
     })
 

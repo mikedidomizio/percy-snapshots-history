@@ -1,9 +1,9 @@
-import {listBuilds} from "@/api/listBuilds";
+import {listBuilds} from "@/api/percy/single-requests/listBuilds";
 import {getApprovedBuilds} from "@/lib/getApprovedBuilds";
 import {NextRequest, NextResponse} from "next/server";
 import {BuildItem} from "@/types/percy/buildItems";
 import {cookies} from "next/headers";
-import {getBuildItems} from "@/api/getBuildItems";
+import {getBuildItems} from "@/api/percy/single-requests/getBuildItems";
 
 export type BuildsJson = {
     authorName?: string
@@ -18,14 +18,15 @@ export type BuildsJson = {
 
 const getBuildItemsForBuild = async(buildId: string) => {
     const cookieStore = cookies()
-    const cookie= cookieStore.get('organizationId')
+    const organizationId= cookieStore.get('organizationId')
+    const token = cookieStore.get('token')
 
-    if (!cookie) {
+    if (!organizationId) {
         return
     }
 
-    return getBuildItems({
-        'organization-id': cookie.value,
+    return getBuildItems(token?.value as string, {
+        'organization-id': organizationId.value,
         'build-id': buildId,
         category: 'changed',
         subcategories: ['approved'],
@@ -37,7 +38,11 @@ const getBuildItemsForBuild = async(buildId: string) => {
 
 
 export async function getPercy(snapshotName: string, lastBuildId?: string) {
-    const builds = await listBuilds(process.env.PERCY_PROJECT_SLUG || '', lastBuildId)
+    const cookieStore = cookies()
+    const projectSlug = cookieStore.get('projectSlug')
+    const token = cookieStore.get('token')
+
+    const builds = await listBuilds(token?.value as string, projectSlug?.value as string, lastBuildId)
     const buildsJson: BuildsJson[] = []
 
     for (let build of getApprovedBuilds(builds.data)) {

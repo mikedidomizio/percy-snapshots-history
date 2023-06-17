@@ -1,16 +1,13 @@
 'use client'
 import {useState} from "react";
 import Link from "next/link";
-import Image from "next/image";
-import {useOrganization} from "@/stores/organization.store";
 import {PercyImage} from "@/components/PercyImage";
 import {BuildsJson} from "@/app/api/get-builds/[buildId]/route";
 
 export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName: string }) => {
     const [fetching, setFetching] = useState(false)
     const [buildsJson, setBuildsJson] = useState(percyData.buildsJson)
-    // todo temporary
-    const [lastBuildId, setLastBuildId] = useState("27991895")
+    const [lastBuildId, setLastBuildId] = useState(percyData.lastBuildId)
     const [lastBuildNumber, setLastBuildNumber] = useState(percyData.lastBuildNumber)
 
     const handleFetchMore = async () => {
@@ -30,6 +27,8 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
         <p className="mb-6">
             General Information:
             <br/>
+            Last build ID: {lastBuildId}
+            <br/>
             Last Build Number to search: {lastBuildNumber}
         </p>
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 mb-6">
@@ -41,7 +40,8 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
                     <br/>
                     Created At: {`${build.createdAt}`}
                     {build.buildItem ?
-                        <PercyImage baseImage={build.buildItem.attributes["cover-head-screenshot-image-url"]} hoverImage={build.buildItem.attributes["cover-diff-image-url"]} /> : 'could not find image'
+                        <Link href={build.buildUrl} target="_blank">
+                            <PercyImage hoverImage={build.buildItem.attributes["cover-head-screenshot-image-url"]} baseImage={build.buildItem.attributes["cover-diff-image-url"]} /></Link> : 'could not find image'
                     }
                 </div>
             })}
