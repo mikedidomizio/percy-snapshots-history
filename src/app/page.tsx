@@ -24,7 +24,6 @@ async function getPercy() {
       if (image) {
         images.push(image.attributes.url)
       }
-
     }
   }
 
@@ -35,7 +34,6 @@ async function getPercy() {
 
 export default async function Home() {
   const percy = getPercy()
-
   const [percyData] = await Promise.all([percy])
 
   return (
