@@ -10,8 +10,6 @@ export function buildQueryStringArrayFromObject(obj = {}, arrayKey = '') {
 export const getBuildItems = async (filter = {}): Promise<BuildItemsResponse> => {
     const qs = buildQueryStringArrayFromObject(filter, 'filter')
 
-    console.log(`https://percy.io/api/v1/build-items?${qs}`)
-
     const response = await fetch(
         `https://percy.io/api/v1/build-items?${qs}`,
         {

@@ -1,6 +1,7 @@
 'use client'
 import {useState} from "react";
 import {setOrganizationId} from "@/stores/organization.store";
+import Link from "next/link";
 
 export const Header = () => {
     const handleFetchOrganization = async() => {
@@ -13,7 +14,7 @@ export const Header = () => {
     const [projectSlug, setProjectSlug] = useState('')
 
     return <form action={handleFetchOrganization}>
-        <h1>Percy Snapshot Compare</h1>
+        <h1><Link href="/">Percy Snapshot Compare</Link></h1>
 
         <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">

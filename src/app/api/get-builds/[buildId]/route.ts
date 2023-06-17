@@ -5,13 +5,14 @@ import {BuildItem} from "@/types/percy/buildItems";
 import {cookies} from "next/headers";
 import {getBuildItems} from "@/api/getBuildItems";
 
-type BuildsJson = {
+export type BuildsJson = {
     authorName?: string
     branch: string,
     buildUrl: string,
     buildId: string,
     buildNumber: number
     buildItem: BuildItem | null
+    createdAt: Date | null
     totalComparisons: number | null
 }
 
@@ -54,6 +55,7 @@ export async function getPercy(snapshotName: string, lastBuildId?: string) {
                 buildNumber: build.attributes["build-number"],
                 // we default because if the image is busted, we still want the build item to render, just without an image
                 buildItem: buildItemImage || null,
+                createdAt: build.attributes["created-at"] || null,
                 totalComparisons: build.attributes["total-comparisons"]
             })
         }

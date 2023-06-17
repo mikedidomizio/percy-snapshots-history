@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {useOrganization} from "@/stores/organization.store";
 import {PercyImage} from "@/components/PercyImage";
+import {BuildsJson} from "@/app/api/get-builds/[buildId]/route";
 
 export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName: string }) => {
     const [fetching, setFetching] = useState(false)
@@ -26,11 +27,19 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
     }
 
     return <div>
-        Last Build Number: {lastBuildNumber}
+        <p className="mb-6">
+            General Information:
+            <br/>
+            Last Build Number to search: {lastBuildNumber}
+        </p>
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 mb-6">
-            {buildsJson.map((build: any) => {
+            {buildsJson.map((build: BuildsJson) => {
                 return <div key={build.buildUrl}>
-                    <Link href={build.buildUrl} target="_blank">{build.buildNumber}</Link>
+                    Build Number: <Link href={build.buildUrl} target="_blank">{build.buildNumber}</Link>
+                    <br/>
+                    Branch: {build.branch}
+                    <br/>
+                    Created At: {`${build.createdAt}`}
                     {build.buildItem ?
                         <PercyImage baseImage={build.buildItem.attributes["cover-head-screenshot-image-url"]} hoverImage={build.buildItem.attributes["cover-diff-image-url"]} /> : 'could not find image'
                     }
