@@ -20,7 +20,7 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
     }
 
     return <div>
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4 mb-6">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 mb-6">
             {buildsJson.map((build: any) => {
                 return <div key={build.buildUrl}>
                     <Link href={build.buildUrl} target="_blank">{build.buildNumber}</Link>

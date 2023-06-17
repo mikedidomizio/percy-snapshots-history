@@ -14,10 +14,13 @@ type Image = {
 }
 
 type BuildsJson = {
+    authorName?: string
+    branch: string,
     buildUrl: string,
     buildId: string,
     buildNumber: number
     images: Image[]
+    totalComparisons: number | null
 }
 
 export async function getPercy(snapshotName: string, lastBuildId?: string) {
@@ -35,6 +38,7 @@ export async function getPercy(snapshotName: string, lastBuildId?: string) {
             const image = getImageByDimensions((snapshotAttr as any).included)
 
             buildsJson.push({
+                branch: build.attributes.branch,
                 buildUrl: build.attributes["web-url"],
                 buildId: build.id,
                 buildNumber: build.attributes["build-number"],
@@ -43,7 +47,8 @@ export async function getPercy(snapshotName: string, lastBuildId?: string) {
                     src: image?.attributes.url || '',
                     height: image?.attributes.height || 0,
                     width: image?.attributes.width || 0
-                }]
+                }],
+                totalComparisons: build.attributes["total-comparisons"]
             })
         }
     }
