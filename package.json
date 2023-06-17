@@ -1,5 +1,5 @@
 {
-  "name": "percy-snapshots-compare-next",
+  "name": "percy-snapshots-history",
   "version": "0.1.0",
   "private": true,
   "scripts": {
