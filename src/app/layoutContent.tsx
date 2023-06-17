@@ -13,7 +13,7 @@ export default async function LayoutContent({
 
     return (
         <section>
-            <Header projectSlug={projectSlug?.value as string} token={token?.value as string}/>
+            <Header projectSlug={projectSlug?.value} token={token?.value}/>
             {children}
         </section>
     )
