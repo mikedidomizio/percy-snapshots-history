@@ -1,18 +1,9 @@
 import {listBuilds} from "@/api/listBuilds";
 import {getApprovedBuilds} from "@/lib/getApprovedBuilds";
-import {listSnapshots} from "@/api/listSnapshots";
-import {getApprovedSnapshotsDiff} from "@/lib/getApprovedSnapshotsDiff";
-import {getSpecificSnapshot} from "@/lib/getSpecificSnapshot";
-import {getSnapshot} from "@/api/getSnapshot";
-import {getImageByDimensions} from "@/lib/getImageByDimensions";
 import {NextRequest, NextResponse} from "next/server";
-import {getOrganization} from "@/api/getOrganization";
-
-type Image = {
-    src: string
-    width: number
-    height: number
-}
+import {BuildItem} from "@/types/percy/buildItems";
+import {cookies} from "next/headers";
+import {getBuildItems} from "@/api/getBuildItems";
 
 type BuildsJson = {
     authorName?: string
@@ -20,35 +11,49 @@ type BuildsJson = {
     buildUrl: string,
     buildId: string,
     buildNumber: number
-    images: Image[]
+    buildItem: BuildItem | null
     totalComparisons: number | null
 }
+
+const getBuildItemsForBuild = async(buildId: string) => {
+    const cookieStore = cookies()
+    const cookie= cookieStore.get('organizationId')
+
+    if (!cookie) {
+        return
+    }
+
+    return getBuildItems({
+        'organization-id': cookie.value,
+        'build-id': buildId,
+        category: 'changed',
+        subcategories: ['approved'],
+        browser_ids: ['36', '38', '39'],
+        // todo hard coded values problematic
+        widths: ['1440', '1576'],
+    })
+}
+
 
 export async function getPercy(snapshotName: string, lastBuildId?: string) {
     const builds = await listBuilds(process.env.PERCY_PROJECT_SLUG || '', lastBuildId)
     const buildsJson: BuildsJson[] = []
 
     for (let build of getApprovedBuilds(builds.data)) {
-        const snapshots = await listSnapshots(build.id)
+        const buildItemsResponse = await getBuildItemsForBuild(build.id)
+        const buildItemImage = buildItemsResponse?.data.find(buildItem => {
+            return decodeURIComponent(snapshotName) === buildItem.attributes['cover-snapshot-name']
+        })
 
-        const diffedSnapshots = getApprovedSnapshotsDiff(snapshots.data)
-        const snapshot = getSpecificSnapshot(diffedSnapshots, decodeURIComponent(snapshotName))
-
-        if (snapshot) {
-            const snapshotAttr = await getSnapshot(snapshot.id)
-            const image = getImageByDimensions((snapshotAttr as any).included)
-
+        // if undefined, it means that the snapshot wasn't part of a diff, we don't want to return it
+        if (buildItemImage) {
             buildsJson.push({
                 branch: build.attributes.branch,
                 buildUrl: build.attributes["web-url"],
                 buildId: build.id,
                 buildNumber: build.attributes["build-number"],
-                // we default because if the image is busted, we still want the build to render
-                images: [{
-                    src: image?.attributes.url || '',
-                    height: image?.attributes.height || 0,
-                    width: image?.attributes.width || 0
-                }],
+                // we default because if the image is busted, we still want the build item to render, just without an image
+                buildItem: buildItemImage || null,
                 totalComparisons: build.attributes["total-comparisons"]
             })
         }
@@ -56,7 +61,8 @@ export async function getPercy(snapshotName: string, lastBuildId?: string) {
 
     return {
         buildsJson,
-        lastBuildId: builds.data[builds.data.length - 1].id
+        lastBuildId: builds.data[builds.data.length - 1].id,
+        lastBuildNumber: builds.data[builds.data.length - 1].attributes["build-number"]
     }
 }
 

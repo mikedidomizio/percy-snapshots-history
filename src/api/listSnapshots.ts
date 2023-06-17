@@ -1,5 +1,10 @@
 import {PercyListSnapshots} from "@/types/percy/listSnapshots";
 
+
+
+// https://percy.io/api/v1/snapshots/1569601638?include=comparisons.head-screenshot.image%2Ccomparisons.base-screenshot.image%2Ccomparisons.diff-image%2Ccomparisons.base-snapshot%2Ccomparisons.base-snapshot.build%2Ccomparisons.browser%2Ccomparisons.comparison-tag%2Cignored-regions.browserFamily%2Cignored-regions.project%2Cignored-regions.creator%2Cignored-regions.first-build%2Cignored-regions.comparison-tag
+
+
 export const listSnapshots = async (
   buildId: string,
 ): Promise<PercyListSnapshots> => {

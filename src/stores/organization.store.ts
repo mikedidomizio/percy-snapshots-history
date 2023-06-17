@@ -8,7 +8,6 @@ type OrganizationStore = {
 
 export const useOrganization = create<OrganizationStore>((set) => ({
     organizationId: null,
-
 }))
 
 export const setOrganizationId = (organizationId: string) => {
