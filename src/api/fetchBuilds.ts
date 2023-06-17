@@ -1,8 +1,15 @@
 
 export const fetchBuilds = async (
     project: string,
+    lastBuild?: string
 ): Promise<any> => {
-    const buildsResponse = await fetch(`https://percy.io/api/v1/projects/${project}/builds`, {
+    let url = `https://percy.io/api/v1/projects/${project}/builds`
+
+    if (lastBuild) {
+        url += `?page[cursor]=${lastBuild}`
+    }
+
+    const buildsResponse = await fetch(url, {
         headers: {
             'Authorization': `Token ${process.env.PERCY_TOKEN}`
         }
