@@ -2,7 +2,9 @@ import {cookies} from "next/headers";
 import {listBuilds} from "@/api/percy/single-requests/listBuilds";
 import {listSnapshots} from "@/api/percy/single-requests/listSnapshots";
 
-export const listSnapshotsOfBuild = async() => {
+export type ListSnapshotsOfBuildResponse = { snapshots: string[] } | null
+
+export const listSnapshotsOfBuild = async(): Promise<ListSnapshotsOfBuildResponse> => {
     const cookieStore = cookies()
     const projectSlug = cookieStore.get('projectSlug')
     const token = cookieStore.get('token')

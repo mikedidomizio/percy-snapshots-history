@@ -3,10 +3,13 @@ import Link from "next/link";
 import {useOrganization} from "@/stores/organization.store";
 import {useEffect, useState} from "react";
 
-// todo proper type and maybe better name
-export const PercySnapshotsList = ({ percyData }: { percyData: any}) => {
+type PercySnapshotsList = {
+    snapshotsProp: string[] | undefined
+}
+
+export const PercySnapshotsList = ({ snapshotsProp }: PercySnapshotsList) => {
     const organizationId = useOrganization((state) => state.organizationId)
-    const [snapshots, setSnapshots] = useState(percyData?.snapshots)
+    const [snapshots, setSnapshots] = useState(snapshotsProp)
 
     useEffect(() => {
         const fetchSnapshots = async() => {
