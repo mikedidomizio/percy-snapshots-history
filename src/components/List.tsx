@@ -29,6 +29,6 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
             })}
         </div>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled={fetching} onClick={handleFetchMore}>
-            {fetching ? 'Fetching' : 'Search 100 more builds'}</button>
+            {fetching ? 'Fetching' : 'Fetch more builds'}</button>
     </div>
 }

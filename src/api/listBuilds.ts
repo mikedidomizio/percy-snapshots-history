@@ -1,6 +1,6 @@
 import {PercyGetBuildsResponse} from "@/types/percy/builds";
 
-export const fetchBuilds = async (
+export const listBuilds = async (
     project: string,
     lastBuild?: string,
     limit?: number

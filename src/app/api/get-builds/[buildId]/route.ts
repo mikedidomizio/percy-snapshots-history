@@ -1,4 +1,4 @@
-import {fetchBuilds} from "@/api/fetchBuilds";
+import {listBuilds} from "@/api/listBuilds";
 import {getApprovedBuilds} from "@/lib/getApprovedBuilds";
 import {listSnapshots} from "@/api/listSnapshots";
 import {getApprovedSnapshotsDiff} from "@/lib/getApprovedSnapshotsDiff";
@@ -6,6 +6,7 @@ import {getSpecificSnapshot} from "@/lib/getSpecificSnapshot";
 import {getSnapshot} from "@/api/getSnapshot";
 import {getImageByDimensions} from "@/lib/getImageByDimensions";
 import {NextRequest, NextResponse} from "next/server";
+import {getOrganization} from "@/api/getOrganization";
 
 type Image = {
     src: string
@@ -24,7 +25,7 @@ type BuildsJson = {
 }
 
 export async function getPercy(snapshotName: string, lastBuildId?: string) {
-    const builds = await fetchBuilds(process.env.PERCY_PROJECT_SLUG || '', lastBuildId)
+    const builds = await listBuilds(process.env.PERCY_PROJECT_SLUG || '', lastBuildId)
     const buildsJson: BuildsJson[] = []
 
     for (let build of getApprovedBuilds(builds.data)) {
