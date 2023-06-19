@@ -32,7 +32,7 @@ export const PercySnapshotsList = ({ snapshotsProp }: PercySnapshotsList) => {
         <ul>
             {snapshots?.sort().map((snapshot: string) => {
             return <li key={snapshot}>
-                    <Link prefetch={false} href={`./${snapshot}`}>{snapshot}</Link>
+                    <Link prefetch={false} href={`./snapshot/${snapshot}`}>{snapshot}</Link>
                 </li>
             })}
         </ul>
