@@ -19,7 +19,7 @@ export const PercySnapshotsList = ({ snapshotsProp }: PercySnapshotsList) => {
         }
 
         if (organizationId) {
-            void fetchSnapshots()
+            fetchSnapshots()
         }
     }, [organizationId])
 
