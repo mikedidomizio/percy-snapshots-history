@@ -12,14 +12,34 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
     const [lastBuildId, setLastBuildId] = useState(percyData.lastBuildId)
     const [lastBuildNumber, setLastBuildNumber] = useState(percyData.lastBuildNumber)
 
-    const handleFetchMore = async () => {
-        setFetching(true)
+    const fetchCall = async (lastBuildId: string, snapshotName: string) => {
         const results = await fetch(`/api/get-builds/${lastBuildId}?snapshotName=${snapshotName}`)
-        const json = await results.json()
-        setBuildsJson([
-            ...buildsJson,
-            ...json.buildsJson,
-        ])
+        return results.json()
+    }
+
+    const handleFetchMore = async (numberOfRequests: number = 1) => {
+        setFetching(true)
+        let results = [...buildsJson]
+        let json
+
+        let tempLastBuildId = lastBuildId
+        let tempLastBuildNumber = lastBuildNumber
+
+        for (let i = 0; i < numberOfRequests; i++ ) {
+            json = await fetchCall(tempLastBuildId, snapshotName)
+
+            tempLastBuildId = json.lastBuildId
+            tempLastBuildNumber = json.lastBuildNumber
+
+            results = [
+                ...results,
+                ...json.buildsJson,
+            ]
+
+            // as requests are being made we can update the UI
+            setBuildsJson(results)
+        }
+
         setLastBuildId(json.lastBuildId)
         setFetching(false)
         setLastBuildNumber(json.lastBuildNumber)
@@ -43,7 +63,10 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
                 />
             })}
         </div>
-        <button className="btn btn-primary" disabled={fetching} onClick={handleFetchMore}>
+        <button className="btn btn-primary" disabled={fetching} onClick={() => handleFetchMore(1)}>
             {fetching ? 'Fetching' : 'Fetch more builds'}</button>
+
+        <button className="btn btn-primary" disabled={fetching} onClick={() => handleFetchMore(5)}>
+            {fetching ? 'Fetching' : 'Fetch a bunch'}</button>
     </div>
 }
