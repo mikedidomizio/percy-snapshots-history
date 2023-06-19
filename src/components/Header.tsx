@@ -38,7 +38,7 @@ export const Header = ({ projectSlug: ps, token: tk}: HeaderProps) => {
                     <Link href="/">Percy Snapshots History</Link>
                 </h1>
                 <Link href={homepage} target="_blank">
-                    <Image alt="link to github repo" src="/github-mark-white.svg" width={32} height={32} />
+                    <Image alt="link to github repo" src="/github-mark.svg" width={32} height={32} />
                 </Link>
 
                 {!showForm ? <button className="btn btn-primary" onClick={() => setShowForm(true)}>
