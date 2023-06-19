@@ -13,13 +13,24 @@ export const listSnapshotsOfBuild = async(): Promise<ListSnapshotsOfBuildRespons
     if (projectSlug && token) {
         const buildsResponse = await listBuilds(token?.value as string, projectSlug?.value as string,{
             page: {
-              limit: 1,
+              limit: 50,
             },
             filter: {
                 state: State.Finished
             }
         });
-        const snapshotsResponse = await listSnapshots(token?.value as string, buildsResponse.data[0].id);
+
+        const successfulAndApprovedBuild = buildsResponse.data.find(build => {
+            return build.attributes["review-state"] === 'approved'
+        })
+
+        let snapshotsResponse;
+
+        if (successfulAndApprovedBuild) {
+            snapshotsResponse = await listSnapshots(token?.value as string, successfulAndApprovedBuild.id);
+        } else {
+            snapshotsResponse = await listSnapshots(token?.value as string, buildsResponse.data[0].id);
+        }
 
         const mappedSnapshots = snapshotsResponse.data.map(snapshot => {
             return snapshot.attributes.name
