@@ -5,8 +5,8 @@ type PercySnapshotCardProps = {
     branchName: string
     buildNumber: number
     buildUrl: string
-    image: string
-    imageOnHover: string
+    image: string | null
+    imageOnHover: string | null
 }
 
 export const PercySnapshotCard = ({ buildNumber, buildUrl, branchName, image, imageOnHover }: PercySnapshotCardProps) => {
