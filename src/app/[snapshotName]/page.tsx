@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: RouteParams }) {
     const [percyData] = await Promise.all([percy])
 
     return (
-        <main className="flex min-h-screen p-24">
+        <main className="flex min-h-screen p-6">
             <List percyData={percyData} snapshotName={params.snapshotName} />
         </main>
     )
