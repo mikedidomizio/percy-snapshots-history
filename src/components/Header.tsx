@@ -32,7 +32,7 @@ export const Header = ({ projectSlug: ps, token: tk}: HeaderProps) => {
         }
     }
 
-    return <>
+    return <div className="p-6">
             <div className="flex flex-row space-x-4 items-center mb-6">
                 <h1>
                     <Link href="/">Percy Snapshots History</Link>
@@ -63,5 +63,5 @@ export const Header = ({ projectSlug: ps, token: tk}: HeaderProps) => {
                     </div>
                 </form>
                 :  null}
-        </>
+        </div>
 }
