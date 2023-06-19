@@ -1,23 +1,31 @@
-import {PercyGetBuildsResponse} from "@/types/percy/builds";
+import {PercyGetBuildsResponse, State} from "@/types/percy/builds";
+import {buildQueryStringArrayFromObject} from "@/api/percy/single-requests/getBuildItems";
+
+type BuildOptions = {
+    filter?: Record<string, string | number>
+    page?: Record<string, string | number>,
+}
 
 export const listBuilds = async (
     token: string,
     project: string,
-    lastBuild?: string,
-    limit?: number
+    options: BuildOptions
 ): Promise<PercyGetBuildsResponse> => {
     let url = `https://percy.io/api/v1/projects/${project}/builds`
+    let qs = ''
 
-    if (lastBuild) {
-        url += `?page[cursor]=${lastBuild}`
+    const pageQueryParams = buildQueryStringArrayFromObject(options.page ?? {}, 'page')
+    const filterQueryParams = buildQueryStringArrayFromObject(options.filter ?? {}, 'filter')
+
+    if (pageQueryParams) {
+        qs += pageQueryParams
     }
 
-    if (limit) {
-        // todo only supporting cursor or limit
-        url += `?page[limit]=${limit}`
+    if (filterQueryParams) {
+        qs += `&${filterQueryParams}`
     }
 
-    const buildsResponse = await fetch(url, {
+    const buildsResponse = await fetch(`${url}?${qs}`, {
         headers: {
             'Authorization': `Token ${token}`
         }
