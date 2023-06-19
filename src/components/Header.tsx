@@ -41,25 +41,25 @@ export const Header = ({ projectSlug: ps, token: tk}: HeaderProps) => {
                     <Image alt="link to github repo" src="/github-mark-white.svg" width={32} height={32} />
                 </Link>
 
-                {!showForm ? <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setShowForm(true)}>
+                {!showForm ? <button className="btn btn-primary" onClick={() => setShowForm(true)}>
                     Show settings form</button> : null}
             </div>
 
             {showForm ? <form action={handleFetchOrganization}>
                     <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                            Project Slug
+                        <label className="block text-sm font-bold mb-2" htmlFor="username">
+                            Project Slug (this is the full name including organization ex. 765234/project-name)
                         </label>
-                        <input className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        <input className="mb-2 input input-bordered input-primary w-full max-w-xs"
                                id="username" type="text" placeholder="Project Slug" value={projectSlug} onChange={(e) => setProjectSlug(e.target.value)} />
 
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                            Token
+                        <label className="block text-sm font-bold mb-2" htmlFor="username">
+                            Percy Token (found in project settings)
                         </label>
-                        <input className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        <input className="mb-2 input input-bordered input-primary w-full max-w-xs"
                                id="username" type="password" placeholder="Token" value={token} onChange={(e) => setToken(e.target.value)} />
-
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Submit</button>
+                        <br/>
+                        <button className="btn btn-primary" type="submit">Submit</button>
                     </div>
                 </form>
                 :  null}
