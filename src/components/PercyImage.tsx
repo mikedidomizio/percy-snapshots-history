@@ -10,7 +10,7 @@ export const PercyImage = ({ baseImage, hoverImage }: PercyImageProps) => {
     const [image, setImage] = useState(baseImage)
 
     return <Image
-        src={image} alt="" width={700} height={700}
+        src={image} alt="" width={700} height={400}
         onMouseEnter={() => setImage(hoverImage)}
         onMouseLeave={() => setImage(baseImage)}
     />
