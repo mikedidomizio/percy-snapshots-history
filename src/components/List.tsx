@@ -54,19 +54,23 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
             Last Build Number to search: {lastBuildNumber}
         </p> : null}
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 mb-6">
+            {buildsJson.length === 0 ? 'Click one of the buttons below to fetch more' : null}
             {buildsJson.map((build: BuildsJson) => {
                 return <PercySnapshotCard
                     buildNumber={build.buildNumber}
                     buildUrl={build.buildUrl}
-                    branchName={build.branch} image={build.buildItem?.attributes["cover-diff-image-url"] ?? ''}
-                    imageOnHover={build.buildItem?.attributes["cover-head-screenshot-image-url"] ?? ''}
+                    branchName={build.branch} image={build.buildItem?.attributes["cover-diff-image-url"] ?? null}
+                    imageOnHover={build.buildItem?.attributes["cover-head-screenshot-image-url"] ?? null}
                 />
             })}
         </div>
-        <button className="btn btn-primary" disabled={fetching} onClick={() => handleFetchMore(1)}>
-            {fetching ? 'Fetching' : 'Fetch more builds'}</button>
+        <div className="space-x-6">
+            <button className="btn btn-primary" disabled={fetching} onClick={() => handleFetchMore(1)}>
+                {fetching ? 'Fetching' : 'Fetch more builds'}</button>
 
-        <button className="btn btn-primary" disabled={fetching} onClick={() => handleFetchMore(5)}>
-            {fetching ? 'Fetching' : 'Fetch a bunch'}</button>
+            <button className="btn btn-primary" disabled={fetching} onClick={() => handleFetchMore(5)}>
+                {fetching ? 'Fetching' : 'Fetch a bunch'}</button>
+        </div>
+
     </div>
 }
