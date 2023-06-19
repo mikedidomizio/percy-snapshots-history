@@ -16,6 +16,6 @@ export const PercyImage = ({ baseImage, hoverImage }: PercyImageProps) => {
         {image !== null ? <Image
             src={image} alt="Image cannot display" width={700} height={400}
 
-        /> : <div className="w-[700px] h-[434px] flex justify-center items-center text-center">Cannot display image.<br/>Perhaps it's a new snapshot?</div>}
+        /> : <div className="w-[700px] h-[434px] flex justify-center items-center text-center">Cannot display image.<br/>Perhaps it&apos;s a new snapshot?</div>}
     </div>
 }
