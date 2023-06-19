@@ -41,8 +41,17 @@ export async function getPercy(snapshotName: string, lastBuildId?: string) {
     const cookieStore = cookies()
     const projectSlug = cookieStore.get('projectSlug')
     const token = cookieStore.get('token')
+    let options = {}
 
-    const builds = await listBuilds(token?.value as string, projectSlug?.value as string, lastBuildId)
+    if (lastBuildId) {
+        options = {
+            page: {
+                cursor: lastBuildId
+            }
+        }
+    }
+
+    const builds = await listBuilds(token?.value as string, projectSlug?.value as string, options)
     const buildsJson: BuildsJson[] = []
 
     for (let build of getApprovedBuilds(builds.data)) {
