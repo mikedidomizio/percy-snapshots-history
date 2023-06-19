@@ -57,6 +57,7 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
             {buildsJson.length === 0 ? 'Click one of the buttons below to fetch more' : null}
             {buildsJson.map((build: BuildsJson) => {
                 return <PercySnapshotCard
+                    key={build.buildNumber}
                     buildNumber={build.buildNumber}
                     buildUrl={build.buildUrl}
                     branchName={build.branch} image={build.buildItem?.attributes["cover-diff-image-url"] ?? null}
