@@ -3,6 +3,7 @@ import {useState} from "react";
 import Link from "next/link";
 import {PercyImage} from "@/components/PercyImage";
 import {BuildsJson} from "@/app/api/get-builds/[buildId]/route";
+import {PercySnapshotCard} from "@/components/PercySnapshotCard";
 
 export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName: string }) => {
     const [fetching, setFetching] = useState(false)
@@ -33,17 +34,25 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
         </p>
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 mb-6">
             {buildsJson.map((build: BuildsJson) => {
-                return <div key={build.buildUrl}>
-                    Build Number: <Link href={build.buildUrl} target="_blank">{build.buildNumber}</Link>
-                    <br/>
-                    Branch: {build.branch}
-                    <br/>
-                    Created At: {`${build.createdAt}`}
-                    {build.buildItem ?
-                        <Link href={build.buildUrl} target="_blank">
-                            <PercyImage hoverImage={build.buildItem.attributes["cover-head-screenshot-image-url"]} baseImage={build.buildItem.attributes["cover-diff-image-url"]} /></Link> : 'could not find image'
-                    }
-                </div>
+                return <PercySnapshotCard
+                    buildNumber={build.buildNumber}
+                    buildUrl={build.buildUrl}
+                    branchName={build.branch} image={build.buildItem?.attributes["cover-diff-image-url"] ?? ''}
+                    imageOnHover={build.buildItem?.attributes["cover-head-screenshot-image-url"] ?? ''}
+                />
+                //
+                //
+                // return <div key={build.buildUrl}>
+                //     Build Number: <Link href={build.buildUrl} target="_blank">{build.buildNumber}</Link>
+                //     <br/>
+                //     Branch: {build.branch}
+                //     <br/>
+                //     Created At: {`${build.createdAt}`}
+                //     {build.buildItem ?
+                //         <Link href={build.buildUrl} target="_blank">
+                //             <PercyImage hoverImage={build.buildItem.attributes["cover-head-screenshot-image-url"]} baseImage={build.buildItem.attributes["cover-diff-image-url"]} /></Link> : 'could not find image'
+                //     }
+                // </div>
             })}
         </div>
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled={fetching} onClick={handleFetchMore}>
