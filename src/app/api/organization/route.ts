@@ -8,7 +8,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const projectSlug = formData.get('projectSlug')
     const token = formData.get('token')
 
-    if (projectSlug && token) {
+    if (projectSlug) {
         const organization = await getProject(projectSlug as string, token as string);
         cookies().set('organizationId', organization.data.relationships.organization.data.id)
         cookies().set('projectSlug', projectSlug as string)
