@@ -7,13 +7,9 @@ export default async function LayoutContent({
 }: {
     children: ReactNode
 }) {
-    const cookieStore = cookies()
-    const projectSlug = cookieStore.get('projectSlug')
-    const token = cookieStore.get('token')
-
     return (
         <section>
-            <Header projectSlug={projectSlug?.value} token={token?.value}/>
+            <Header/>
             {children}
         </section>
     )
