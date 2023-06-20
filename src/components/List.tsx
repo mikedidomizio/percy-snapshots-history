@@ -55,15 +55,19 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
         </p> : null}
         <div className="mb-6">
             {buildsJson.length === 0 ? 'Click one of the buttons below to fetch more' : null}
-            {buildsJson.map((build: BuildsJson) => {
-                return <div className="inline-block mx-3 mb-6" key={build.buildNumber}> <PercySnapshotCard
-                    buildNumber={build.buildNumber}
-                    buildUrl={build.buildUrl}
-                    branchName={build.branch} image={build.buildItem?.attributes["cover-diff-image-url"] ?? null}
-                    imageOnHover={build.buildItem?.attributes["cover-head-screenshot-image-url"] ?? null}
-                />
+
+            {buildsJson.length ? <div className="flex flex-wrap gap-6">
+                        {buildsJson.map((build: BuildsJson) => {
+                            return <PercySnapshotCard
+                                buildNumber={build.buildNumber}
+                                buildUrl={build.buildUrl}
+                                key={build.buildNumber}
+                                branchName={build.branch} image={build.buildItem?.attributes["cover-diff-image-url"] ?? null}
+                                imageOnHover={build.buildItem?.attributes["cover-head-screenshot-image-url"] ?? null}
+                            />
+                    })}
                 </div>
-            })}
+            : null}
         </div>
         <div className="space-x-6">
             <button className="btn btn-primary" disabled={fetching} onClick={() => handleFetchMore(1)}>
