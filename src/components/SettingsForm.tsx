@@ -1,6 +1,7 @@
 'use client'
 import {useState} from "react";
 import {setOrganizationId} from "@/stores/organization.store";
+import {redirect} from "next/navigation";
 
 type SettingsProps = {
     projectSlug: string | undefined,
@@ -23,6 +24,7 @@ export const SettingsForm = ({ token: tk, projectSlug: ps}: SettingsProps) => {
             })
             const json = await response.json()
             setOrganizationId(json.organizationId)
+            redirect('/')
         }
     }
 
