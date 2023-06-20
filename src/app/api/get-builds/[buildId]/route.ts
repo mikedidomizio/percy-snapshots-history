@@ -77,8 +77,8 @@ export async function getPercy(snapshotName: string, lastBuildId?: string) {
 
     return {
         buildsJson,
-        lastBuildId: builds.data[builds.data.length - 1].id,
-        lastBuildNumber: builds.data[builds.data.length - 1].attributes["build-number"]
+        lastBuildId: builds.data[builds.data.length - 1]?.id ?? null,
+        lastBuildNumber: builds.data[builds.data.length - 1]?.attributes["build-number"] ?? null
     }
 }
 
