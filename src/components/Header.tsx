@@ -5,7 +5,7 @@ const { homepage } = require('../../package.json');
 
 export const Header = () => {
     return <div className="p-6">
-            <div className="flex flex-row space-x-4 items-center mb-6">
+            <div className="flex flex-row space-x-4 items-center">
                 <h1>
                     <Link href="/">Percy Snapshots History</Link>
                 </h1>
