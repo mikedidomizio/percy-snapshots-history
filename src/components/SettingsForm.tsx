@@ -44,7 +44,7 @@ export const SettingsForm = ({ token: tk, projectSlug: ps}: SettingsProps) => {
     return <form action={handleFetchOrganization}>
         <div className="mb-4">
             <label className="block text-sm font-bold mb-2" htmlFor="username">
-                Project Slug (this is the full name including organization ex. "ampproject/amphtml" or "Ember/Ember-Website" )
+                Project Slug (this is the full name including organization ex. &quot;ampproject/amphtml&quot; or &quot;Ember/Ember-Website&quot;)
             </label>
             <input className="mb-2 input input-bordered input-primary w-full max-w-xs"
                    id="username" required type="text" placeholder="Project Slug" value={projectSlug} onChange={(e) => handleProjectSlugUpdated(e.target.value)} />
