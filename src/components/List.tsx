@@ -45,7 +45,7 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
         setLastBuildNumber(json.lastBuildNumber)
     }
 
-    return <div>
+    return <div className="w-full">
         {isDevelopmentMode ? <p className="mb-6">
             General Information:
             <br/>
@@ -53,16 +53,16 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
             <br/>
             Last Build Number to search: {lastBuildNumber}
         </p> : null}
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 mb-6">
+        <div className="mb-6">
             {buildsJson.length === 0 ? 'Click one of the buttons below to fetch more' : null}
             {buildsJson.map((build: BuildsJson) => {
-                return <PercySnapshotCard
-                    key={build.buildNumber}
+                return <div className="inline-block mx-3 mb-6" key={build.buildNumber}> <PercySnapshotCard
                     buildNumber={build.buildNumber}
                     buildUrl={build.buildUrl}
                     branchName={build.branch} image={build.buildItem?.attributes["cover-diff-image-url"] ?? null}
                     imageOnHover={build.buildItem?.attributes["cover-head-screenshot-image-url"] ?? null}
                 />
+                </div>
             })}
         </div>
         <div className="space-x-6">

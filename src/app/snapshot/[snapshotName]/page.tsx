@@ -11,7 +11,7 @@ export default async function Page({ params }: { params: RouteParams }) {
     const cookieStore = cookies()
 
     if (!cookieStore.has('organizationId')) {
-        redirect('/')
+        redirect('/settings')
     }
 
     const percy = getPercy(params.snapshotName)
