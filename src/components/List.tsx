@@ -1,7 +1,5 @@
 'use client'
 import {useState} from "react";
-import Link from "next/link";
-import {PercyImage} from "@/components/PercyImage";
 import {BuildsJson} from "@/app/api/get-builds/[buildId]/route";
 import {PercySnapshotCard} from "@/components/PercySnapshotCard";
 import {isDevelopmentMode} from "@/lib/isDevelopmentMode";
