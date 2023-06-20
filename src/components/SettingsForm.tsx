@@ -40,7 +40,6 @@ export const SettingsForm = ({ token: tk, projectSlug: ps}: SettingsProps) => {
         }
     }
 
-
     return <form action={handleFetchOrganization}>
         <div className="mb-4">
             <label className="block text-sm font-bold mb-2" htmlFor="username">
