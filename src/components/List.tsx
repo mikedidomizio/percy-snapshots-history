@@ -52,8 +52,6 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
             Last Build Number to search: {lastBuildNumber}
         </p> : null}
         <div className="mb-6">
-            {buildsJson.length === 0 ? 'Click one of the buttons below to fetch more' : null}
-
             {buildsJson.length ? <div className="flex flex-wrap gap-6">
                         {buildsJson.map((build: BuildsJson) => {
                             return <PercySnapshotCard
@@ -65,7 +63,7 @@ export const List = ({ percyData, snapshotName }: { percyData: any, snapshotName
                             />
                     })}
                 </div>
-            : null}
+            : 'Initial fetch didn\'t find a build approved with that snapshot.  Click one of the buttons below to fetch more'}
         </div>
         <div className="space-x-6">
             <button className="btn btn-primary" disabled={fetching} onClick={() => handleFetchMore(1)}>
