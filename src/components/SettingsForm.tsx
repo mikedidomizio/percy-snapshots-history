@@ -22,7 +22,7 @@ export const SettingsForm = ({ token: tk, projectSlug: ps}: SettingsProps) => {
             }
             data.append('projectSlug', projectSlug);
 
-            const response = await fetch('./api/organization', {
+            const response = await fetch('/api/organization', {
                 method: 'POST',
                 body: data
             })
@@ -40,21 +40,30 @@ export const SettingsForm = ({ token: tk, projectSlug: ps}: SettingsProps) => {
         }
     }
 
+    const handleUsePublicProject = async () => {
+        setProjectSlug('Ember/Ember-Website')
+        setToken('')
+    }
+
     return <form action={handleFetchOrganization}>
-        <div className="mb-4">
+        <div>
             <label className="block text-sm font-bold mb-2" htmlFor="username">
                 Project Slug (this is the full name including organization ex. &quot;ampproject/amphtml&quot; or &quot;Ember/Ember-Website&quot;)
             </label>
-            <input className="mb-2 input input-bordered input-primary w-full max-w-xs"
+            <input className="mb-6 input input-bordered input-primary w-full max-w-xs"
                    id="username" required type="text" placeholder="Project Slug" value={projectSlug} onChange={(e) => handleProjectSlugUpdated(e.target.value)} />
 
             <label className="block text-sm font-bold mb-2" htmlFor="username">
                 Percy Token (found in project settings, leave empty if public project)
             </label>
-            <input className="mb-2 input input-bordered input-primary w-full max-w-xs"
+            <input className="mb-6 input input-bordered input-primary w-full max-w-xs"
                    id="username" type="password" placeholder="Token" value={token} onChange={(e) => setToken(e.target.value)} />
             <br/>
-            <button className="btn btn-primary" type="submit">Submit</button>
+
+            <div className="space-x-6">
+                <button className="btn btn-primary" type="submit">Submit</button>
+                <button className="btn btn-primary" type="button" onClick={() => handleUsePublicProject()}>Use public project for testing</button>
+            </div>
         </div>
     </form>
 }
