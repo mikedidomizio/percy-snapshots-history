@@ -30,7 +30,8 @@ const getBuildItemsForBuild = async(buildId: string) => {
         'build-id': buildId,
         category: 'changed',
         subcategories: ['approved'],
-        browser_ids: ['36', '38', '39'],
+        // todo these are not only the browsers, but include the versions I'm fairly certain!  This breaks as new builds with updated browsers come in
+        browser_ids: ['47', '48'],
         // todo hard coded values problematic
         widths: ['1440', '1576'],
     })
